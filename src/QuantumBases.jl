@@ -1,5 +1,6 @@
 module QuantumBases
 
+export AbstractBasis
 export TensorBasis, NumberConservedBasis
 export getstate, getstate!, getposition
 
