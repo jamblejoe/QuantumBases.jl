@@ -58,6 +58,8 @@ end
 
 Base.eltype(::TensorBasis) = BitVector
 
+sites(basis::TensorBasis) = basis.L
+
 # Array interface
 """
 Returns the basis element at position index.
@@ -110,7 +112,8 @@ function Base.length(basis::NumberConservedBasis)
     N = basis.N
     basis.Ds[L+1,N+1]
 end
-#sites(basis::PonomarevBasis) = basis.k
+
+sites(basis::PonomarevBasis) = basis.L
 #Base.isequal(b1::NumberConservedBasis, b2::NumberConservedBasis) = b1.L == b2.L && b1.N == b2.N
 
 """
