@@ -113,7 +113,7 @@ function Base.length(basis::NumberConservedBasis)
     basis.Ds[L+1,N+1]
 end
 
-sites(basis::PonomarevBasis) = basis.L
+sites(basis::NumberConservedBasis) = basis.L
 #Base.isequal(b1::NumberConservedBasis, b2::NumberConservedBasis) = b1.L == b2.L && b1.N == b2.N
 
 """
