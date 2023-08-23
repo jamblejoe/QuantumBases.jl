@@ -2,11 +2,11 @@ using QuantumBases
 using Test
 
 
-@testset "TensorBasis" begin
+@testset "AscendingTwoLevelBasis" begin
 
     @testset "L=2" begin
         
-        basis = TensorBasis(2)
+        basis = AscendingTwoLevelBasis(2)
         @test getstate(basis, 1) == [0,0]
         @test getstate(basis, 2) == [0,1]
         @test getstate(basis, 3) == [1,0]
@@ -15,7 +15,7 @@ using Test
 
     @testset "L=3" begin
         
-        basis = TensorBasis(3)
+        basis = AscendingTwoLevelBasis(3)
         @test getstate(basis, 1) == [0,0,0]
         @test getstate(basis, 2) == [0,0,1]
         @test getstate(basis, 3) == [0,1,0]
@@ -29,7 +29,7 @@ using Test
 
     @testset "getposition(getstate(..))" begin
         for L in 1:6
-            basis = TensorBasis(L)
+            basis = AscendingTwoLevelBasis(L)
             for i in eachindex(basis)
                 @test getstate(basis, i) in basis
                 @test getposition(basis, getstate(basis, i)) == i
@@ -40,7 +40,7 @@ using Test
 
     @testset "getstate!" begin
         L = 5
-        basis = TensorBasis(L)
+        basis = AscendingTwoLevelBasis(L)
         for T in [Int] # floats do not work due to digits!
             state = zeros(T, L)
             @test getstate!(state, basis, 3) == getstate(basis, 3)

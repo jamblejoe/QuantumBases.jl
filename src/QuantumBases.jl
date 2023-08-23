@@ -1,12 +1,9 @@
 module QuantumBases
 
 export AbstractBasis
-export TensorBasis, NumberConservedBasis
+export TensorBasis, AscendingTwoLevelBasis, NumberConservedBasis
 export getstate, getstate!, getposition
 export sites
-
-
-
 
 
 abstract type AbstractBasis end
@@ -16,11 +13,22 @@ abstract type AbstractBasis end
 # Tensor Basis
 #
 ####################################################################
+
 struct TensorBasis <: AbstractBasis
     L::Int
 end
 
-function getposition(basis::TensorBasis, state::AbstractVector)
+
+####################################################################
+#
+# AscendingTwoLevelBasis
+#
+####################################################################
+struct AscendingTwoLevelBasis <: AbstractBasis
+    L::Int
+end
+
+function getposition(basis::AscendingTwoLevelBasis, state::AbstractVector)
     L = basis.L
 
 	state in basis || error("state $state not in basis")
@@ -31,11 +39,11 @@ function getposition(basis::TensorBasis, state::AbstractVector)
 	index
 end
 
-function getstate(basis::TensorBasis, index::Integer)
+function getstate(basis::AscendingTwoLevelBasis, index::Integer)
     getstate!(BitVector(undef, basis.L), basis, index)
 end
 
-function getstate!(state::AbstractVector, basis::TensorBasis, index::Integer)
+function getstate!(state::AbstractVector, basis::AscendingTwoLevelBasis, index::Integer)
     L = basis.L
 
     1<= index <= length(basis) || error("Index $index out of bounds [1,$(length(basis))]")
@@ -47,30 +55,30 @@ end
 
 #sites(basis::TensorBasis) = basis.L
 
-Base.size(basis::TensorBasis) = (length(basis),)
-Base.length(basis::TensorBasis) = 2^basis.L
-Base.isequal(b1::TensorBasis, b2::TensorBasis) = b1.L == b2.L
+Base.size(basis::AscendingTwoLevelBasis) = (length(basis),)
+Base.length(basis::AscendingTwoLevelBasis) = 2^basis.L
+Base.isequal(b1::AscendingTwoLevelBasis, b2::AscendingTwoLevelBasis) = b1.L == b2.L
 
 # Iterator interface
-function Base.iterate(basis::TensorBasis, index::Integer=1)
+function Base.iterate(basis::AscendingTwoLevelBasis, index::Integer=1)
     1 <= index <= length(basis) ? (getstate(basis, index), index+1) : nothing
 end
 
-Base.eltype(::TensorBasis) = BitVector
+Base.eltype(::AscendingTwoLevelBasis) = BitVector
 
-sites(basis::TensorBasis) = basis.L
+sites(basis::AscendingTwoLevelBasis) = basis.L
 
 # Array interface
 """
 Returns the basis element at position index.
 """
-Base.getindex(basis::TensorBasis, index::Integer) = getstate(basis, index)
-Base.firstindex(::TensorBasis) = 1
-Base.lastindex(basis::TensorBasis) = length(basis)
+Base.getindex(basis::AscendingTwoLevelBasis, index::Integer) = getstate(basis, index)
+Base.firstindex(::AscendingTwoLevelBasis) = 1
+Base.lastindex(basis::AscendingTwoLevelBasis) = length(basis)
 
-Base.in(state::AbstractVector, basis::TensorBasis) = length(state)==basis.L && all(0 .<= state .<= 1)
-Base.in(state::BitVector, basis::TensorBasis) = length(state)==basis.L
-Base.eachindex(basis::TensorBasis) = 1:length(basis)
+Base.in(state::AbstractVector, basis::AscendingTwoLevelBasis) = length(state)==basis.L && all(0 .<= state .<= 1)
+Base.in(state::BitVector, basis::AscendingTwoLevelBasis) = length(state)==basis.L
+Base.eachindex(basis::AscendingTwoLevelBasis) = 1:length(basis)
 
 
 ####################################################################
