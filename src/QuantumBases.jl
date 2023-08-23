@@ -18,6 +18,12 @@ struct TensorBasis <: AbstractBasis
     L::Int
 end
 
+Base.size(basis::TensorBasis) = (length(basis),)
+Base.length(basis::TensorBasis) = 2^basis.L
+Base.isequal(b1::TensorBasis, b2::TensorBasis) = b1.L == b2.L
+
+sites(basis::TensorBasis) = basis.L
+
 
 ####################################################################
 #

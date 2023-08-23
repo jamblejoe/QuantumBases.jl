@@ -1,4 +1,4 @@
 name = "QuantumBases"
 uuid = "6a474148-d581-4e0a-935c-0ecefba9a140"
 authors = ["Goran Nakerst <go.nakerst@web.de>"]
-version = "0.4.0"
+version = "0.4.1"
