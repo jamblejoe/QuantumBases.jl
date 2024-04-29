@@ -34,6 +34,15 @@ struct AscendingTwoLevelBasis <: AbstractBasis
     L::Int
 end
 
+# helper function
+function digits_base2!(s::BitVector, index::Int64, L::Integer)
+    L >= 1 || error("L must be greate than 1. Got L=$L.")
+	s.len = L
+    s.chunks .= reinterpret(UInt64, index)
+    s.dims = (L,)
+	s
+end
+
 function getposition(basis::AscendingTwoLevelBasis, state::AbstractVector)
     L = basis.L
 
@@ -56,6 +65,17 @@ function getstate!(state::AbstractVector, basis::AscendingTwoLevelBasis, index::
     1<= index <= length(basis) || error("Index $index out of bounds [1,$(length(basis))]")
 
     digits!(state, index-1, base=2)
+    reverse!(state)
+    state
+end
+
+function getstate!(state::BitVector, basis::AscendingTwoLevelBasis, index::Int64)
+    L = basis.L
+
+    1<= index <= length(basis) || error("Index $index out of bounds [1,$(length(basis))]")
+    index <= typemax(Int64) || error("index $index is larger than typemax(Int64)")
+
+    digits_base2!(state, index-1, L)
     reverse!(state)
     state
 end
