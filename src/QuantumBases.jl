@@ -40,7 +40,8 @@ function getposition(basis::AscendingTwoLevelBasis, state::AbstractVector)
 	state in basis || error("state $state not in basis")
 	index = 1
 	for i in eachindex(state)
-		index += 2^(L-i) * state[i]
+		#index += 2^(L-i) * state[i]
+        index += state[i] << (L-i)
 	end
 	index
 end
