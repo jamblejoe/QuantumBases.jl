@@ -19,7 +19,7 @@ struct TensorBasis <: AbstractBasis
 end
 
 Base.size(basis::TensorBasis) = (length(basis),)
-Base.length(basis::TensorBasis) = 2^basis.L
+Base.length(basis::TensorBasis) = 1 << basis.L
 Base.isequal(b1::TensorBasis, b2::TensorBasis) = b1.L == b2.L
 
 sites(basis::TensorBasis) = basis.L
@@ -63,7 +63,7 @@ end
 #sites(basis::TensorBasis) = basis.L
 
 Base.size(basis::AscendingTwoLevelBasis) = (length(basis),)
-Base.length(basis::AscendingTwoLevelBasis) = 2^basis.L
+Base.length(basis::AscendingTwoLevelBasis) = 1 << basis.L
 Base.isequal(b1::AscendingTwoLevelBasis, b2::AscendingTwoLevelBasis) = b1.L == b2.L
 
 # Iterator interface
